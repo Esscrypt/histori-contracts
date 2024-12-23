@@ -1,66 +1,28 @@
-## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+## Rebuild
+```
+forge clean && forge build
 ```
 
-### Test
-
-```shell
-$ forge test
+## Deploy using Foundry -> Sepolia and Mainnet
+```
+source .env
+forge script script/deploy-token.s.sol --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verify
+forge script script/deploy-deposit.s.sol --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verify
+forge script script/deploy-vesting.s.sol --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verify
 ```
 
-### Format
-
-```shell
-$ forge fmt
+## Deploy using Foundry -> zksync
 ```
+source .env
+# zkSync Sepolia
+forge script script/deploy-deposit.s.sol --zksync --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verifier zksync --verifier-url https://explorer.sepolia.era.zksync.dev/contract_verification --verify
 
-### Gas Snapshots
+forge script script/deploy-vesting.s.sol --zksync --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verifier zksync --verifier-url https://explorer.sepolia.era.zksync.dev/contract_verification --verify
 
-```shell
-$ forge snapshot
-```
 
-### Anvil
 
-```shell
-$ anvil
-```
+#zkSync Mainnet
+forge script script/deploy-deposit.s.sol --zksync --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verifier zksync --verify
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+forge script script/deploy-vesting.s.sol --broadcast --fork-url $RPC_URL  --private-key $PRIVATE_KEY --verify
 ```
